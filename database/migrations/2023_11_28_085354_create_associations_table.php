@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('associations', function (Blueprint $table) {
             $table->id();
+            $table->string('nom');
+            $table->date('date_création');
+            $table->string('slogan');
+            $table->string('logo');
             $table->timestamps();
         });
     }

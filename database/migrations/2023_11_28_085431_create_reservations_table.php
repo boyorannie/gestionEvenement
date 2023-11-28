@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->string('reference');
+            $table->enum('statut',['acceptée', 'refusée']);
+            $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('evenement_id');
+            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('evenement_id')->references('id')->on('evenements');
+
+            
+
             $table->timestamps();
         });
     }
