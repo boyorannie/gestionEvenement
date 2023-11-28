@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Association;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AssociationController extends Controller
 {
@@ -12,15 +13,36 @@ class AssociationController extends Controller
      */
     public function index()
     {
-        //
+     return view('association.inscription');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            'nom' => 'required',
+            'date_creation' => 'required',
+            'slogan' => 'required',
+            'logo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            
+        ]);
+        $imagePath = $request->file('logo')->store('images/article', 'public');
+
+        $association = new Association();
+        $association->nom = $request->get('nom');
+        $association->date_creation = $request->get('date_creation');
+        $association->logo = $imagePath;
+        $association->slogan= $request->get('slogan');
+        
+
+        
+        $association->user_id = Auth::user()->id;
+
+        $association->save();
+        return back()->with('status', 'inscription réussie');
     }
 
     /**
