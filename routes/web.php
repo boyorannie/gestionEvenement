@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/association/inscription', [AssociationController::class, 'index']);
     Route::post('/association/inscrip', [AssociationController::class, 'create']);
+    Route::get('/client/inscrip', [ClientController::class, 'index']);
+    Route::post('/client/inscription', [ClientController::class, 'create']);
    
 });
 

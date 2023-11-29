@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class ClientController extends Controller
 {
@@ -12,15 +14,31 @@ class ClientController extends Controller
      */
     public function index()
     {
-        
+        return view('client.inscriptionClient');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+       
+        $request->validate([
+            'prenom' => 'required',
+            'telephone' => 'required',
+            'accompagnant' => 'required',  
+        ]);
+        
+
+        $client = new Client();
+        $client ->prenom = $request->get('prenom');
+        $client ->telephone= $request->get('telephone');
+        $client ->accompagnant= $request->get('accompagnant');
+        
+        $client ->user_id = Auth::user()->id;
+        $client ->save();
+        return Redirect::to('/')->with('status', 'inscription réussie');
+    
     }
 
     /**

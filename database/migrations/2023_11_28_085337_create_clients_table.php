@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
             $table->string('prenom');
-            $table->string('email');
             $table->string('telephone');
-            $table->string('motpasse');
+            $table->integer('accompagnant');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

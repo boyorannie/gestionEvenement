@@ -16,7 +16,7 @@ class HomeController extends Controller
                 return Redirect::to('/association/inscription');
             } 
             else {
-                return Redirect::to('/');
+                return Redirect::to('/client/inscrip');
             }
         }
     }
