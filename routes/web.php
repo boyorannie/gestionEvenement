@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AssociationController;
+use App\Http\Controllers\EvenementController;
+use App\Models\Evenement;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/association/inscrip', [AssociationController::class, 'create']);
     Route::get('/client/inscrip', [ClientController::class, 'index']);
     Route::post('/client/inscription', [ClientController::class, 'create']);
-   
+    Route::get('/ajout', [EvenementController::class, 'index']);
+    Route::post('/ajout/evenement', [EvenementController::class, 'store']);
 });
 
 require __DIR__.'/auth.php';

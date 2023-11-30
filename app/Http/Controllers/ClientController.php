@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,9 @@ class ClientController extends Controller
         
         $client ->user_id = Auth::user()->id;
         $client ->save();
+        $user= User::find(Auth::user()->id);
+        $user->var=true;
+        $user->update();
         return Redirect::to('/')->with('status', 'inscription réussie');
     
     }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Evenement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class EvenementController extends Controller
 {
@@ -12,7 +14,7 @@ class EvenementController extends Controller
      */
     public function index()
     {
-        //
+        return view('association.ajoutEvenement');              
     }
 
     /**
@@ -20,7 +22,7 @@ class EvenementController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -28,7 +30,31 @@ class EvenementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $request->validate([
+            'libelle' => 'required',
+            'description' => 'required',
+            'image_mise_en_avant' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'date_limite_inscription' => 'required',
+            'statut' => 'required',
+            'date_evenement' => 'required', 
+            
+        ]);
+        // dd($request);
+        $imagePath = $request->file('image_mise_en_avant')->store('images/evenement', 'public');
+
+        $evenement = new Evenement();
+        $evenement->libelle = $request->get('libelle');
+        $evenement->description = $request->get('description');
+        $evenement->image_mise_en_avant = $imagePath;
+        $evenement->date_limite_inscription = $request->get('date_limite_inscription');
+        $evenement->statut = $request->get('statut');
+        $evenement->date_evenement = $request->get('date_evenement');
+        
+        $evenement->association_id = Auth::user()->id;
+
+        $evenement->save();
+        return Redirect::to('/dashboard')->with('status', 'Evenement enregistré  avec succès');
     }
 
     /**

@@ -13,11 +13,19 @@ class HomeController extends Controller
         if (Auth::check()) {
             $role = Auth::user()->role;
             if ($role == 'association') {
-                return Redirect::to('/association/inscription');
+             if(Auth::user()->var==true){
+                return Redirect::to('/association/ajoutEvenement');
+             }
+             return Redirect::to('/association/inscription');
             } 
             else {
+                if(Auth::user()->var==true){
+                    return Redirect::to('/association/faireReservation');
+                }
                 return Redirect::to('/client/inscrip');
-            }
+            
         }
     }
+   
+}
 }

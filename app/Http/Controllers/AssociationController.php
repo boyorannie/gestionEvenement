@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Association;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class AssociationController extends Controller
 {
@@ -40,9 +42,11 @@ class AssociationController extends Controller
 
         
         $association->user_id = Auth::user()->id;
-
         $association->save();
-        return back()->with('status', 'inscription réussie');
+        $user= User::find(Auth::user()->id);
+        $user->var=true;
+        $user->update();
+        return Redirect::to('/dashboard')->with('status', 'inscription réussie');
     }
 
     /**

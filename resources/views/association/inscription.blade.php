@@ -11,19 +11,19 @@
     @endif
 
 <body>
-  @if(count($errors) >0)
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <i class="bi bi-exclamation-octagon me-1"></i>
-      @foreach($errors->all() as $error)
-      {{$error}}
-      @endforeach
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-  @endif
+
   <h3>TERMINER INSCRIPTION</h3><br><br>     
     <form action="{{'/association/inscrip'}}" method="POST" enctype="multipart/form-data">
 @csrf
-      
+@if(count($errors) >0)
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="bi bi-exclamation-octagon me-1"></i>
+    @foreach($errors->all() as $error)
+    {{$error}}
+    @endforeach
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
         <label  for="name" >Nom Association:</label>
           <input type="text" name="nom"><br><br>
        
