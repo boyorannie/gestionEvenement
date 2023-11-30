@@ -17,6 +17,11 @@ class EvenementController extends Controller
         return view('association.ajoutEvenement');              
     }
 
+    public function index2()
+    {
+        $evenements = Evenement::all();
+        return view('association.listeEvenement', compact('evenements'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -60,10 +65,11 @@ class EvenementController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Evenement $evenement)
-    {
-        //
-    }
+    // public function show($id)
+    // {
+    //     $evenement = Evenement::findOrFail($id);
+    //     return view('association.listeEvenement', compact('evenement'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/client/inscription', [ClientController::class, 'create']);
     Route::get('/ajout', [EvenementController::class, 'index']);
     Route::post('/ajout/evenement', [EvenementController::class, 'store']);
+    Route::get('/liste/evenement', [EvenementController::class, 'index2']);
+
 });
 
 require __DIR__.'/auth.php';
