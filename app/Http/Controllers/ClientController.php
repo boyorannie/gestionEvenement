@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Client;
+use App\Models\Evenement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -17,7 +18,11 @@ class ClientController extends Controller
     {
         return view('client.inscriptionClient');
     }
-
+    public function index2()
+    {
+        $evenements = Evenement::all();
+        return view('association.listeEvenement', compact('evenements'));
+    }
     /**
      * Show the form for creating a new resource.
      */

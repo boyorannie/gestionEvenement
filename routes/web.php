@@ -22,6 +22,7 @@ use App\Models\Evenement;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/', [ClientController::class, 'index2']);
 
 Route::get('home', [HomeController::class, 'index']);
 Route::get('/dashboard', function () {
