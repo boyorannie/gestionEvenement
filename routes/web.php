@@ -40,6 +40,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/ajout', [EvenementController::class, 'index']);
     Route::post('/ajout/evenement', [EvenementController::class, 'store']);
     Route::get('/liste/evenement', [EvenementController::class, 'index2']);
+    Route::get('/voirPlus/{id}', [EvenementController::class, 'show']);
+    Route::get('/modifierEven/{id}', [EvenementController::class, 'edit']);
+    Route::patch('/modifierEvenement/{id}', [EvenementController::class, 'update']);
+    Route::delete('/supprimerEvenement/{id}', [EvenementController::class, 'destroy']);
 
 });
 

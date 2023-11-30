@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Evenement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 
 class EvenementController extends Controller
@@ -65,33 +66,64 @@ class EvenementController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show($id)
-    // {
-    //     $evenement = Evenement::findOrFail($id);
-    //     return view('association.listeEvenement', compact('evenement'));
-    // }
+    public function show($id)
+    {
+        $evenement = Evenement::findOrFail($id);
+        return view('association.voirPlus', compact('evenement'));
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Evenement $evenement)
+    public function edit( $id)
     {
-        //
+        $evenement = Evenement::findOrFail($id);
+        return view('association.modifierEvenement', compact('evenement'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Evenement $evenement)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'libelle' => 'required',
+            'description' => 'required',
+            'image_mise_en_avant' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'date_limite_inscription' => 'required',
+            'statut' => 'required',
+            'date_evenement' => 'required', 
+            
+        ]);
+        $evenement = Evenement::findOrFail($id);
+
+        // dd($request);
+        if ($request->file('image_mise_en_avant')) {
+            Storage::disk('public')->delete($evenement->image_mise_en_avant);
+
+        $imagePath = $request->file('image_mise_en_avant')->store('images/evenement', 'public');
+        $evenement->image_mise_en_avant = $imagePath;
     }
+      
+        $evenement->libelle = $request->get('libelle');
+        $evenement->description = $request->get('description'); 
+        $evenement->date_limite_inscription = $request->get('date_limite_inscription');
+        $evenement->statut = $request->get('statut');
+        $evenement->date_evenement = $request->get('date_evenement');
+        $evenement->association_id = Auth::user()->id;
+        $evenement->update();
+        return Redirect::to('/dashboard')->with('status', 'Evenement modifié avec succès');
+   
+}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Evenement $evenement)
+    public function destroy($id)
     {
-        //
+        $evenement = Evenement::findOrFail($id);
+        Storage::disk('public')->delete($evenement->image_mise_en_avant);
+        $evenement->delete();
+        return back()->with('status', 'Evènement supprimé avec succès');
     }
 }

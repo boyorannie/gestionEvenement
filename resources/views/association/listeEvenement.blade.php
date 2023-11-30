@@ -1,6 +1,13 @@
 @extends('welcome')
 
 @section('content')
+@if (session('status'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-1"></i>
+        {{ session('status') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
@@ -35,14 +42,14 @@
                                 <td>{{ $evenement->date_evenement }}</td>
                                 <td>{{ $evenement->date_limite_inscription }}</td>
                                
-                                {{-- <td class="d-flex justify-content-center align-items-center">
-                                    <a href="/admin/article/{{$evenement->id}}" class="btn btn-warning m-1">Voir plus</a>
-                                    <a href="/admin/modifier/{{$evenement->id}}" class="btn btn-warning m-1">Modifier</a> --}}
-                                    {{-- <form method="POST" action="/admin/articleSupprimer/{{ $article->id }}">
+                                <td class="d-flex justify-content-center align-items-center">
+                                    <a href="/voirPlus/{{$evenement->id}}" class="btn btn-info">Voir plus</a> 
+                                    <a href="/modifierEven/{{$evenement->id}}" class="btn btn-warning m-1">Modifier</a> 
+                                    <form method="POST" action="/supprimerEvenement/{{ $evenement->id }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger m-1">Supprimer</button>
-                                    </form> --}}
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
