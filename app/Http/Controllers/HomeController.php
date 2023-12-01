@@ -20,7 +20,7 @@ class HomeController extends Controller
             } 
             else {
                 if(Auth::user()->var==true){
-                    return Redirect::to('/association/faireReservation');
+                    return Redirect::to('/liste');
                 }
                 return Redirect::to('/client/inscrip');
             

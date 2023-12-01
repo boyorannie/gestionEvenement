@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->string('reference');
-            $table->enum('statut',['acceptée', 'refusée']);
+            $table->string('reference')->nullable();
+            $table->integer('nombrePlace');
+            $table->enum('statut',['acceptée', 'refusée'])->default('acceptée');
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('evenement_id');
             $table->foreign('client_id')->references('id')->on('clients');

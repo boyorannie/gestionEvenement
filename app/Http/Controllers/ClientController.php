@@ -21,7 +21,13 @@ class ClientController extends Controller
     public function index2()
     {
         $evenements = Evenement::all();
-        return view('association.listeEvenement', compact('evenements'));
+        return view('client.liste', compact('evenements'));
+    }
+
+    public function afficherListe()
+    {
+        $evenements = Evenement::all();
+        return view('client.listeDefaut', compact('evenements'));
     }
     /**
      * Show the form for creating a new resource.

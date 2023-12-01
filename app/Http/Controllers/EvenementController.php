@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Association;
 use App\Models\Evenement;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +21,12 @@ class EvenementController extends Controller
     }
 
     public function index2()
+    {
+        $evenements = Evenement::all();
+        return view('client.liste', compact('evenements'));
+    }
+
+    public function afficherListe()
     {
         $evenements = Evenement::all();
         return view('association.listeEvenement', compact('evenements'));
@@ -56,8 +64,9 @@ class EvenementController extends Controller
         $evenement->date_limite_inscription = $request->get('date_limite_inscription');
         $evenement->statut = $request->get('statut');
         $evenement->date_evenement = $request->get('date_evenement');
-        
-        $evenement->association_id = Auth::user()->id;
+        $asso = Association::where('user_id', '=', Auth::user()->id)->first();
+        // dd($asso);
+        $evenement->association_id =  $asso->id;
 
         $evenement->save();
         return Redirect::to('/dashboard')->with('status', 'Evenement enregistré  avec succès');
@@ -69,7 +78,8 @@ class EvenementController extends Controller
     public function show($id)
     {
         $evenement = Evenement::findOrFail($id);
-        return view('association.voirPlus', compact('evenement'));
+       $reservations= $evenement->reservation()->get();
+        return view('association.voirPlus', compact('evenement', 'reservations'));
     }
 
     /**

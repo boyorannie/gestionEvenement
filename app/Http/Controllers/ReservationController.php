@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evenement;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class ReservationController extends Controller
 {
@@ -12,15 +15,29 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        return view('client.reservation');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request, $id)
     {
-        //
+       
+            $request->validate([
+                'nombrePlace' => 'required',
+                
+            ]);
+            
+    
+            $reservation = new Reservation();
+            $reservation->nombrePlace= $request->get('nombrePlace'); 
+            $reservation->client_id = Auth::user()->id;
+            $even = Evenement::where('association_id', '=', Auth::user()->id)->first();
+            // dd($asso);
+            $reservation->evenement_id =  $even->id;
+            $reservation->save();
+            return Redirect::to('/')->with('status', 'réservation réussie');
     }
 
     /**
@@ -50,9 +67,13 @@ class ReservationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Reservation $reservation)
+    public function update(Request $request,  $id)
     {
-        //
+        
+            $reservation = Reservation::findOrFail($id);
+            $reservation->statut = 'refusée';
+            $reservation->update();
+            return back()->with('succes', 'Reservation effectuée avec succès');
     }
 
     /**
